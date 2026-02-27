@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  rally-app:
+    build: .
+    container_name: rally_liguria_container
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
