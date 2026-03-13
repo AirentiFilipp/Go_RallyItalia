@@ -1,4 +1,4 @@
-# 🏎️ Rally Italia - Web App
+<# 🏎️ Rally Italia - Web App
 
 ## 📌 Descrizione del Progetto
 **Rally Italia** è una piattaforma collaborativa dove gli appassionati possono visualizzare il calendario dei rally italiani, consultare i risultati e inserire i propri tempi o quelli dei loro piloti preferiti per ogni Prova Speciale (PS).
