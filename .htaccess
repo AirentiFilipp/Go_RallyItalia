@@ -1,0 +1,11 @@
+Options -Indexes
+RewriteEngine On
+
+# Forza tutte le chiamate /api/* → api.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/(.*)$ api.php [QSA,L]
+
+# Tutto il resto → index.php (SPA)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteRule ^(.*)$ index.php [QSA,L]

@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+
+  # ── PHP + Apache ─────────────────────────────────────
+  app:
+    build: .
+    container_name: rally_app
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: rally_italia
+      DB_USER: rally_user
+      DB_PASS: rally_pass
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ── MySQL ────────────────────────────────────────────
+  db:
+    image: mysql:8.0
+    container_name: rally_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_DATABASE: rally_italia
+      MYSQL_USER: rally_user
+      MYSQL_PASSWORD: rally_pass
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./sql/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "rally_user", "-prally_pass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── phpMyAdmin (opzionale, dev only) ─────────────────
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: rally_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: rally_user
+      PMA_PASSWORD: rally_pass
+    depends_on:
+      - db
+
+volumes:
+  db_data:
