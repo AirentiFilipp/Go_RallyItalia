@@ -1,4 +1,3 @@
-cat > src/script.js << 'ENDOFFILE'
 /* Rally Italia — Frontend JS */
 
 const API = '/api';
@@ -395,4 +394,3 @@ function toast(msg, err = false) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
 }
-ENDOFFILE
